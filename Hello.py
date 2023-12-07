@@ -23,7 +23,7 @@ import streamlit as st
 from streamlit.logger import get_logger
 import time
 import os
-from array import array
+#from array import array
 from pathlib import Path
 import numpy as np
 import matplotlib.pyplot as plt
