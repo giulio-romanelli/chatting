@@ -16,7 +16,7 @@
 #import pyaudio
 import base64
 import wave
-from pygame import mixer
+#from pygame import mixer
 from openai import OpenAI
 from gtts import gTTS
 import streamlit as st
@@ -98,7 +98,7 @@ def sentimentAnalysis(transcript):
 ## playAudio
 ##-------------------------------------------------------------------------------------##   
 def playAudio(filename, background=False):
-    
+
     with open(filename, "rb") as f:
         data = f.read()
         b64 = base64.b64encode(data).decode()
