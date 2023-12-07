@@ -59,7 +59,7 @@ def run():
     
         # Commands
         question = prompt
-        answer = ""
+        answer = "Great to interact with you!"
         
         # Chat message answer
         st.session_state.messages.append({"role": "assistant", "content": answer})
