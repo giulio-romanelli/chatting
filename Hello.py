@@ -17,34 +17,59 @@ from streamlit.logger import get_logger
 
 LOGGER = get_logger(__name__)
 
-
 def run():
     st.set_page_config(
-        page_title="Hello",
+        page_title="Chatting",
         page_icon="👋",
     )
 
-    st.write("# Welcome to Chatting! 👋")
+    st.markdown("""
+      <style>
+      div.stSpinner > div {
+        text-align:center;
+        align-items: center;
+        justify-content: center;
+      }
+      </style>""", unsafe_allow_html=True)
 
-    st.sidebar.success("Select a demo above.")
+    # Initiatlize environment
+    if 'k' not in st.session_state:
+        st.session_state['k'] = str(0)
 
-    st.markdown(
-        """
-        Streamlit is an open-source app framework built specifically for
-        Machine Learning and Data Science projects.
-        **👈 Select a demo from the sidebar** to see some examples
-        of what Streamlit can do!
-        ### Want to learn more?
-        - Check out [streamlit.io](https://streamlit.io)
-        - Jump into our [documentation](https://docs.streamlit.io)
-        - Ask a question in our [community
-          forums](https://discuss.streamlit.io)
-        ### See more complex demos
-        - Use a neural net to [analyze the Udacity Self-driving Car Image
-          Dataset](https://github.com/streamlit/demo-self-driving)
-        - Explore a [New York City rideshare dataset](https://github.com/streamlit/demo-uber-nyc-pickups)
-    """
-    )
+    # Initialize session
+    st.title("Chat")
+    withAudio = st.sidebar.toggle('Audio')
+    withMic = st.sidebar.toggle('Mic')
+    if "messages" not in st.session_state:
+        st.session_state.messages = []
+    for message in st.session_state.messages:
+        with st.chat_message(message["role"]):
+            st.markdown(message["content"])
+
+    # Chat prompt
+    prompt = ""
+    prompt = st.chat_input("Write here")
+
+    if prompt:
+
+        # Chat message question
+        st.session_state.messages.append({"role": "user", "content": prompt})
+        with st.chat_message("user"):
+            st.markdown(prompt)
+    
+        # Commands
+        question = prompt
+        answer = ""
+        
+        # Chat message answer
+        st.session_state.messages.append({"role": "assistant", "content": answer})
+        with st.chat_message("assistant"):
+            st.markdown(answer)
+        if ( question == "/sentiment" ): st.image('Experience.png')
+        
+        # Store results
+        if ( 'k' in st.session_state ):
+            st.session_state['k'] = str(int(st.session_state['k']) + 1)
 
 
 if __name__ == "__main__":
