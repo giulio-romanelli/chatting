@@ -17,8 +17,8 @@
 import base64
 import wave
 #from pygame import mixer
-#from openai import OpenAI
-from gtts import gTTS
+from openai import OpenAI
+#from gtts import gTTS
 import streamlit as st
 from streamlit.logger import get_logger
 import time
@@ -202,18 +202,18 @@ def speechToTextGoogle(filename, language="en"):
 ##-------------------------------------------------------------------------------------##
 ## textToSpeechGoogle
 ##-------------------------------------------------------------------------------------##
-def textToSpeechGoogle(text, filename, language="en"):
+# def textToSpeechGoogle(text, filename, language="en"):
 
-    # Check audio file is not open
-    while True:
-        try:
-            myfile = open(filename, "wb")
-            break                             
-        except IOError:
-            stopAudio( )
+#     # Check audio file is not open
+#     while True:
+#         try:
+#             myfile = open(filename, "wb")
+#             break                             
+#         except IOError:
+#             stopAudio( )
 
-    speech = gTTS(text, lang=language)
-    speech.save(filename)
+#     speech = gTTS(text, lang=language)
+#     speech.save(filename)
 
 # ##-------------------------------------------------------------------------------------##
 # ## textToSpeechOpenAI
@@ -363,7 +363,7 @@ def run():
         #if ( question == "/sentiment" ): st.image('Experience.png')
         
         # Play audio
-        if ( withAudio and len(answer) > 0 ): textToSpeechGoogle(answer, outputFile, "it")
+        #if ( withAudio and len(answer) > 0 ): textToSpeechGoogle(answer, outputFile, "it")
         #if ( withAudio and len(answer) > 0 ): textToSpeechOpenAI(answer, outputFile, "onyx")
         if ( withAudio and len(answer) > 0 ): playAudio(outputFile)
 
