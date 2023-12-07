@@ -15,6 +15,7 @@
 # Imports
 from pygame import mixer
 from openai import OpenAI
+from gtts import gTTS
 import streamlit as st
 from streamlit.logger import get_logger
 import time
@@ -59,9 +60,10 @@ def textToSpeechGoogle(text, filename, language="en"):
 
 
 
-
+##-------------------------------------------------------------------------------------##
+## run
+##-------------------------------------------------------------------------------------##
 LOGGER = get_logger(__name__)
-
 def run():
     st.set_page_config(
         page_title="Chatting",
@@ -116,6 +118,8 @@ def run():
         if ( 'k' in st.session_state ):
             st.session_state['k'] = str(int(st.session_state['k']) + 1)
 
-
+##-------------------------------------------------------------------------------------##
+## Main
+##-------------------------------------------------------------------------------------##
 if __name__ == "__main__":
     run()
