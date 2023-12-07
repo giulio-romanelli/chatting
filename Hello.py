@@ -18,7 +18,7 @@ import base64
 import wave
 #from pygame import mixer
 from openai import OpenAI
-#from gtts import gTTS
+from gtts import gTTS
 import streamlit as st
 from streamlit.logger import get_logger
 import time
@@ -35,22 +35,22 @@ import math
 ##-------------------------------------------------------------------------------------##
 ## OpenAI
 ##-------------------------------------------------------------------------------------## 
-#os.environ['OPENAI_API_KEY'] = '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'
+#os.environ['OPENAI_API_KEY'] = 'XXX'
 
-# ##-------------------------------------------------------------------------------------##
-# ## chatBot
-# ##-------------------------------------------------------------------------------------##
-# def chatBot(input):
-#     client = OpenAI()
-#     completion = client.chat.completions.create(
-#         model="gpt-3.5-turbo",
-#         messages=[
-#         {"role": "system", "content": "Sei un assistente virtuale. Rispondi al massimo con 50 parole"},
-#         #{"role": "system", "content": "You are the best children story author in the world. Write a story about this topic"},
-#         {"role": "user", "content": input}
-#         ]
-#     )
-#     return(completion.choices[0].message.content)
+##-------------------------------------------------------------------------------------##
+## chatBot
+##-------------------------------------------------------------------------------------##
+def chatBot(input):
+    client = OpenAI()
+    completion = client.chat.completions.create(
+        model="gpt-3.5-turbo",
+        messages=[
+        {"role": "system", "content": "Sei un assistente virtuale. Rispondi al massimo con 50 parole"},
+        #{"role": "system", "content": "You are the best children story author in the world. Write a story about this topic"},
+        {"role": "user", "content": input}
+        ]
+    )
+    return(completion.choices[0].message.content)
 
 # ##-------------------------------------------------------------------------------------##
 # ## summarizeBot
@@ -199,21 +199,21 @@ def speechToTextGoogle(filename, language="en"):
 
 #     return transcript
 
-##-------------------------------------------------------------------------------------##
-## textToSpeechGoogle
-##-------------------------------------------------------------------------------------##
-# def textToSpeechGoogle(text, filename, language="en"):
+#-------------------------------------------------------------------------------------##
+# textToSpeechGoogle
+#-------------------------------------------------------------------------------------##
+def textToSpeechGoogle(text, filename, language="en"):
 
-#     # Check audio file is not open
-#     while True:
-#         try:
-#             myfile = open(filename, "wb")
-#             break                             
-#         except IOError:
-#             stopAudio( )
+    # Check audio file is not open
+    while True:
+        try:
+            myfile = open(filename, "wb")
+            break                             
+        except IOError:
+            stopAudio( )
 
-#     speech = gTTS(text, lang=language)
-#     speech.save(filename)
+    speech = gTTS(text, lang=language)
+    speech.save(filename)
 
 # ##-------------------------------------------------------------------------------------##
 # ## textToSpeechOpenAI
@@ -353,8 +353,8 @@ def run():
         #     answer = "Di seguito la sintesi della evoluzione del sentiment della conversazione"
         #     #createReport()
         # else:
-        #     # Chatbot
-        #     if ( len(question) > 0 ): answer=chatBot(question)
+        # Chatbot
+        if ( len(question) > 0 ): answer=chatBot(question)
         
         # Chat message answer
         st.session_state.messages.append({"role": "assistant", "content": answer})
@@ -363,7 +363,7 @@ def run():
         #if ( question == "/sentiment" ): st.image('Experience.png')
         
         # Play audio
-        #if ( withAudio and len(answer) > 0 ): textToSpeechGoogle(answer, outputFile, "it")
+        if ( withAudio and len(answer) > 0 ): textToSpeechGoogle(answer, outputFile, "it")
         #if ( withAudio and len(answer) > 0 ): textToSpeechOpenAI(answer, outputFile, "onyx")
         if ( withAudio and len(answer) > 0 ): playAudio(outputFile)
 
