@@ -4,5 +4,5 @@ pandas
 pydeck
 streamlit
 openai
-gtts
+gTTS
 array
