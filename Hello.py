@@ -48,7 +48,7 @@ def run():
 
     # Chat prompt
     prompt = ""
-    prompt = st.chat_input("Write here")
+    prompt = st.chat_input("Write here...")
 
     if prompt:
 
