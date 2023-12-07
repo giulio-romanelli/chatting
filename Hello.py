@@ -354,7 +354,7 @@ def run():
         #     #createReport()
         # else:
         # Chatbot
-        if ( len(question) > 0 ): answer=chatBot(question)
+        #if ( len(question) > 0 ): answer=chatBot(question)
         
         # Chat message answer
         st.session_state.messages.append({"role": "assistant", "content": answer})
