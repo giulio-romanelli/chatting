@@ -28,14 +28,14 @@ from pathlib import Path
 import numpy as np
 import matplotlib.pyplot as plt
 #from docx import Document
-#from audio_recorder_streamlit import audio_recorder
+from audio_recorder_streamlit import audio_recorder
 import math
 #import datetime
 
 ##-------------------------------------------------------------------------------------##
 ## OpenAI
 ##-------------------------------------------------------------------------------------## 
-#os.environ['OPENAI_API_KEY'] = 'XXX'
+#os.environ['OPENAI_API_KEY'] = 'xxx'
 
 ##-------------------------------------------------------------------------------------##
 ## chatBot
@@ -52,58 +52,60 @@ def chatBot(input):
     )
     return(completion.choices[0].message.content)
 
-# ##-------------------------------------------------------------------------------------##
-# ## summarizeBot
-# ##-------------------------------------------------------------------------------------##
-# def summarizeBot(input):
-#     client = OpenAI()
-#     completion = client.chat.completions.create(
-#         model="gpt-3.5-turbo",
-#         messages=[
-#         {"role": "system", "content": "Riassumi il testo fornito"},
-#         {"role": "user", "content": input}
-#         ]
-#     )
-#     return(completion.choices[0].message.content)
-
-# ##-------------------------------------------------------------------------------------##
-# ## sentimentAnalysis
-# ##-------------------------------------------------------------------------------------##
-# def sentimentAnalysis(transcript):
-#     content = f"What emotion is the following text expressing?\n{transcript}"
-#     client = OpenAI()
-#     completion = client.chat.completions.create(
-#         model="gpt-3.5-turbo",
-#         messages=[
-#         {"role": "system", "content": "You are a helpful assistant. Answer with one word choosing between Positive, Neutral, Negative"},
-#         {"role": "user", "content": content}
-#         ]
-#     )
-#     return(completion.choices[0].message.content)
+##-------------------------------------------------------------------------------------##
+## summarizeBot
+##-------------------------------------------------------------------------------------##
+def summarizeBot(input):
+    client = OpenAI()
+    completion = client.chat.completions.create(
+        model="gpt-3.5-turbo",
+        messages=[
+        {"role": "system", "content": "Riassumi il testo fornito"},
+        {"role": "user", "content": input}
+        ]
+    )
+    return(completion.choices[0].message.content)
 
 ##-------------------------------------------------------------------------------------##
-## playAudio
-##-------------------------------------------------------------------------------------##   
-# def playAudio(filename, background=False):
-
-#     mixer.init()
-#     mixer.music.load(filename)
-#     mixer.music.play()
-#     while not background:
-#         if mixer.music.get_busy() == False:
-#             #mixer.quit()
-#             break
+## sentimentAnalysis
+##-------------------------------------------------------------------------------------##
+def sentimentAnalysis(transcript):
+    content = f"What emotion is the following text expressing?\n{transcript}"
+    client = OpenAI()
+    completion = client.chat.completions.create(
+        model="gpt-3.5-turbo",
+        messages=[
+        {"role": "system", "content": "You are a helpful assistant. Answer with one word choosing between Positive, Neutral, Negative"},
+        {"role": "user", "content": content}
+        ]
+    )
+    return(completion.choices[0].message.content)
 
 ##-------------------------------------------------------------------------------------##
 ## playAudio
 ##-------------------------------------------------------------------------------------##   
 def playAudio(filename, background=False):
 
+    mixer.init()
+    mixer.music.load(filename)
+    mixer.music.play()
+    while not background:
+        if mixer.music.get_busy() == False:
+            #mixer.quit()
+            break
+
+##-------------------------------------------------------------------------------------##
+## playAudioEmbedded
+##-------------------------------------------------------------------------------------##   
+# TODO Change playbackRate
+def playAudioEmbedded(filename, background=False):
+
     with open(filename, "rb") as f:
         data = f.read()
         b64 = base64.b64encode(data).decode()
+        # <audio controls autoplay="true"> in case you want to show controls
         md = f"""
-            <audio controls autoplay="true">
+            <audio id="audio" autoplay>
             <source src="data:audio/mp3;base64,{b64}" type="audio/mp3">
             </audio>
             """
@@ -180,24 +182,24 @@ def speechToTextGoogle(filename, language="en"):
     # TODO
     return
 
-# ##-------------------------------------------------------------------------------------##
-# ## speechToTextOpenAI
-# ##-------------------------------------------------------------------------------------##
-# def speechToTextOpenAI(filename, language="en"):
-#     client = OpenAI()
-#     audio_file= open(filename, "rb")
-#     transcript = client.audio.transcriptions.create(
-#         model="whisper-1", 
-#         language=language,
-#         file=audio_file,
-#         response_format="text"
-#     )
+##-------------------------------------------------------------------------------------##
+## speechToTextOpenAI
+##-------------------------------------------------------------------------------------##
+def speechToTextOpenAI(filename, language="en"):
+    client = OpenAI()
+    audio_file= open(filename, "rb")
+    transcript = client.audio.transcriptions.create(
+        model="whisper-1", 
+        language=language,
+        file=audio_file,
+        response_format="text"
+    )
     
-#     # Controls
-#     if transcript.find("Amara.org") > 0: transcript = " "
-#     if transcript.find("prossimo episodio") > 0: transcript = " "
+    # Controls
+    if transcript.find("Amara.org") > 0: transcript = " "
+    if transcript.find("prossimo episodio") > 0: transcript = " "
 
-#     return transcript
+    return transcript
 
 #-------------------------------------------------------------------------------------##
 # textToSpeechGoogle
@@ -215,76 +217,76 @@ def textToSpeechGoogle(text, filename, language="en"):
     speech = gTTS(text, lang=language)
     speech.save(filename)
 
-# ##-------------------------------------------------------------------------------------##
-# ## textToSpeechOpenAI
-# ##-------------------------------------------------------------------------------------##
-# def textToSpeechOpenAI(text, filename, language="alloy"):
+##-------------------------------------------------------------------------------------##
+## textToSpeechOpenAI
+##-------------------------------------------------------------------------------------##
+def textToSpeechOpenAI(text, filename, language="alloy"):
     
-#     # Check audio file is not open
-#     while True:
-#         try:
-#             myfile = open(filename, "wb")
-#             break                             
-#         except IOError:
-#             #stopAudio( )   
+    # Check audio file is not open
+    while True:
+        try:
+            myfile = open(filename, "wb")
+            break                             
+        except IOError:
+            stopAudio( )   
     
-#     speech_file_path = Path(__file__).parent / filename
-#     client = OpenAI()
-#     response = client.audio.speech.create(
-#         model="tts-1",
-#         voice=language, # alloy, onyx, fable
-#         input=text
-#     )
-#     response.stream_to_file(speech_file_path)
+    speech_file_path = Path(__file__).parent / filename
+    client = OpenAI()
+    response = client.audio.speech.create(
+        model="tts-1",
+        voice=language, # alloy, onyx, fable
+        input=text
+    )
+    response.stream_to_file(speech_file_path)
 
-# ##-------------------------------------------------------------------------------------##
-# ## createReport
-# ##-------------------------------------------------------------------------------------##
-# def createReport():
+##-------------------------------------------------------------------------------------##
+## createReport
+##-------------------------------------------------------------------------------------##
+def createReport():
  
-#     # Read 
-#     with open('Questions.txt', 'r') as f:
-#         Questions=f.read()
-#     n = 0
-#     Sentiments = [ int(0) ]*1000
-#     with open('Sentiments.txt', 'r') as f:
-#         for line in f:
-#             Sentiments[n] = int(line)
-#             n += 1
-#     Sentiments = Sentiments[0:n]
+    # Read 
+    with open('Questions.txt', 'r') as f:
+        Questions=f.read()
+    n = 0
+    Sentiments = [ int(0) ]*1000
+    with open('Sentiments.txt', 'r') as f:
+        for line in f:
+            Sentiments[n] = int(line)
+            n += 1
+    Sentiments = Sentiments[0:n]
 
-#     # Post processing
-#     Experience = [ int(0) ]*n
-#     xAxis = [ int(0) ]*n
-#     Colors = [ 'white' ]*n
-#     Experience[0] = 0 #Sentiments[0]
-#     for k in range(1, n):
-#         Experience[k] = Experience[k-1] + Sentiments[k-1]
-#         xAxis[k] = k
-#         if ( Sentiments[k]>0 ): Colors[k] = "green"
-#         if ( Sentiments[k]==0 ): Colors[k] = "yellow"
-#         if ( Sentiments[k]<0 ): Colors[k] = "red"
+    # Post processing
+    Experience = [ int(0) ]*n
+    xAxis = [ int(0) ]*n
+    Colors = [ 'white' ]*n
+    Experience[0] = 0 #Sentiments[0]
+    for k in range(1, n):
+        Experience[k] = Experience[k-1] + Sentiments[k-1]
+        xAxis[k] = k
+        if ( Sentiments[k]>0 ): Colors[k] = "green"
+        if ( Sentiments[k]==0 ): Colors[k] = "yellow"
+        if ( Sentiments[k]<0 ): Colors[k] = "red"
 
-#     # Creating the bar plot
-#     fig = plt.figure()
-#     yticks = range(math.floor(min(Experience)-1), math.ceil(max(Experience)+1))
-#     plt.yticks(yticks)
-#     plt.grid(visible=True, axis='y', linestyle='--')
-#     #plt.ylim(-1.1, 1.1)
-#     plt.bar(xAxis, Sentiments, bottom = Experience, color = Colors)
-#     plt.xlabel("Interactions")
-#     plt.ylabel("Sentiment evolution")
-#     plt.savefig('Experience.png')
+    # Creating the bar plot
+    fig = plt.figure()
+    yticks = range(math.floor(min(Experience)-1), math.ceil(max(Experience)+1))
+    plt.yticks(yticks)
+    plt.grid(visible=True, axis='y', linestyle='--')
+    #plt.ylim(-1.1, 1.1)
+    plt.bar(xAxis, Sentiments, bottom = Experience, color = Colors)
+    plt.xlabel("Interactions")
+    plt.ylabel("Sentiment evolution")
+    plt.savefig('Experience.png')
 
-#     # Summarize
-#     summary = summarizeBot(Questions)
-#     # document = Document()
-#     # document.add_heading("Sintesi discussione voicebot " + str(datetime.date.today()), level=1)
-#     # p = document.add_paragraph(summary)
-#     # p = document.add_picture('Experience.png')
-#     # document.save('Summary.docx')
+    # Summarize
+    summary = summarizeBot(Questions)
+    # document = Document()
+    # document.add_heading("Sintesi discussione voicebot " + str(datetime.date.today()), level=1)
+    # p = document.add_paragraph(summary)
+    # p = document.add_picture('Experience.png')
+    # document.save('Summary.docx')
 
-#     return summary
+    return summary
 
 ##-------------------------------------------------------------------------------------##
 ## run
@@ -330,11 +332,27 @@ def run():
     # Audio prompt
     volume = -1
     question = ""
-    # if withMic: 
+    #if withMic: 
     #     with st.spinner('\n Speak up \n'):
     #         volume = recordAudio(inputFile)
     #         if ( volume > 0 ): question=speechToTextOpenAI(inputFile, "IT")
     # if ( len(question) > 0 ): prompt = question 
+    # Audio prompt
+    volume = -1
+    question = ""
+    audio_bytes = None
+    if withMic: 
+        # # Version with prompt (valid for clent - server)
+        audio_bytes = audio_recorder("", icon_name="microphone", icon_size="2x")
+        if ( audio_bytes ):
+            volume = 1
+            with open(inputFile, mode='wb') as f:
+                f.write(audio_bytes)
+        # Version listening in the background (valid locally)     
+        #with st.spinner('\n Speak up \n'):
+            #volume = recordAudio(inputFile)
+        if ( volume > 0 ): question=speechToTextOpenAI(inputFile, "IT")
+    if ( len(question) > 0 ): prompt = question 
 
     if prompt:
 
@@ -346,26 +364,27 @@ def run():
         # Commands
         question = prompt
         answer = ""
-        # if ( question == "/summary" ):
-        #     #answer = createReport()
-        #     answer = "Di seguito la sintesi dei punti chiave toccati durante la conversazione \n \n \n" + answer
-        # elif ( question == "/sentiment" ):
-        #     answer = "Di seguito la sintesi della evoluzione del sentiment della conversazione"
-        #     #createReport()
-        # else:
-        # Chatbot
-        #if ( len(question) > 0 ): answer=chatBot(question)
+        if ( question == "/summary" ):
+            answer = createReport()
+            answer = "Di seguito la sintesi dei punti chiave toccati durante la conversazione \n \n \n" + answer
+        elif ( question == "/sentiment" ):
+            answer = "Di seguito la sintesi della evoluzione del sentiment della conversazione"
+            createReport()
+        else:
+            # Chatbot
+            if ( len(question) > 0 ): answer=chatBot(question)
         
         # Chat message answer
         st.session_state.messages.append({"role": "assistant", "content": answer})
         with st.chat_message("assistant"):
             st.markdown(answer)
-        #if ( question == "/sentiment" ): st.image('Experience.png')
+        if ( question == "/sentiment" ): st.image('Experience.png')
         
         # Play audio
         if ( withAudio and len(answer) > 0 ): textToSpeechGoogle(answer, outputFile, "it")
         #if ( withAudio and len(answer) > 0 ): textToSpeechOpenAI(answer, outputFile, "onyx")
-        if ( withAudio and len(answer) > 0 ): playAudio(outputFile)
+        #if ( withAudio and len(answer) > 0 ): playAudio(outputFile)
+        if ( withAudio and len(answer) > 0 ): playAudioEmbedded(outputFile)
 
         # Sentiment analysis
         sentiment = ""
@@ -380,8 +399,8 @@ def run():
             fs = open('Sentiments.txt', 'a'); fs.write(str(sentimentId) + '\n'); fs.close()
             st.session_state['k'] = str(int(st.session_state['k']) + 1)
 
-        if withMic: st.rerun()
-    if withMic: st.rerun()
+        #if withMic: st.rerun()
+    #if withMic: st.rerun()
 
 ##-------------------------------------------------------------------------------------##
 ## Main
