@@ -343,7 +343,7 @@ def run():
     audio_bytes = None
     if withMic: 
         # # Version with prompt (valid for clent - server)
-        audio_bytes = audio_recorder("", icon_name="microphone", icon_size="2x")
+        audio_bytes = audio_recorder("", icon_name="microphone", icon_size="2x", energy_threshold=(-1.0, -1.0), pause_threshold=5.0)
         if ( audio_bytes ):
             volume = 1
             with open(inputFile, mode='wb') as f:
