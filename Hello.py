@@ -348,10 +348,11 @@ def run():
             volume = 1
             with open(inputFile, mode='wb') as f:
                 f.write(audio_bytes)
+            question=speechToTextOpenAI(inputFile, "IT")
         # Version listening in the background (valid locally)     
         #with st.spinner('\n Speak up \n'):
             #volume = recordAudio(inputFile)
-        if ( volume > 0 ): question=speechToTextOpenAI(inputFile, "IT")
+            #if ( volume > 0 ): question=speechToTextOpenAI(inputFile, "IT")
     if ( len(question) > 0 ): prompt = question 
 
     if prompt:
