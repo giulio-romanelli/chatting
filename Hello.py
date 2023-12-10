@@ -410,8 +410,8 @@ def run():
             fs = open('Sentiments.txt', 'a'); fs.write(str(sentimentId) + '\n'); fs.close()
             st.session_state['k'] = str(int(st.session_state['k']) + 1)
 
-        if withMic: st.rerun()
-    if withMic: st.rerun()
+    #    if withMic: st.rerun()
+    #if withMic: st.rerun()
 
 ##-------------------------------------------------------------------------------------##
 ## Main
