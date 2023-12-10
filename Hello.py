@@ -351,6 +351,7 @@ def run():
         audio = mic_recorder(start_prompt="Start recording...", stop_prompt="Stop recording...", key='recorder', just_once=True, use_container_width=True)
         if audio: 
             audio_bytes = audio['bytes']
+            st.audio(audio_bytes)
             volume = len(audio_bytes)
             st.write(volume)
         if ( volume > 0 ):
