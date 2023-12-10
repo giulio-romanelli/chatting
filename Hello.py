@@ -32,6 +32,7 @@ import matplotlib.pyplot as plt
 import math
 #import datetime
 from streamlit_mic_recorder import mic_recorder
+import time
 
 ##-------------------------------------------------------------------------------------##
 ## OpenAI
@@ -411,7 +412,10 @@ def run():
             st.session_state['k'] = str(int(st.session_state['k']) + 1)
 
     #    if withMic: st.rerun()
-    #if withMic: st.rerun()
+    if withMic: 
+        with st.spinner(' '):
+            time.sleep(2)
+            st.rerun()
 
 ##-------------------------------------------------------------------------------------##
 ## Main
