@@ -102,19 +102,23 @@ def playAudio(filename, background=False):
 # TODO Change playbackRate
 def playAudioEmbedded(filename, background=False):
 
-    with open(filename, "rb") as f:
-        data = f.read()
-        b64 = base64.b64encode(data).decode()
-        # <audio controls autoplay="true"> in case you want to show controls
-        md = f"""
-            <audio id="audio" autoplay>
-            <source src="data:audio/mp3;base64,{b64}" type="audio/mp3">
-            </audio>
-            """
-        st.markdown(
-            md,
-            unsafe_allow_html=True,
-        )
+    try:
+        with open(filename, "rb") as f:
+            data = f.read()
+            b64 = base64.b64encode(data).decode()
+            # <audio controls autoplay="true"> in case you want to show controls
+            md = f"""
+                <audio id="audio" autoplay>
+                <source src="data:audio/mp3;base64,{b64}" type="audio/mp3">
+                </audio>
+                """
+            st.markdown(
+                md,
+                unsafe_allow_html=True,
+            )
+    except FileNotFoundError:
+        print("File not found. Check the path variable and filename")
+        return   
 
 ##-------------------------------------------------------------------------------------##
 ## stopAudio
