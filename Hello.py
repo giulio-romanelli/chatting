@@ -394,8 +394,8 @@ def run():
         # Play audio
         if ( withAudio and len(answer) > 0 ): textToSpeechGoogle(answer, outputFile, "it")
         #if ( withAudio and len(answer) > 0 ): textToSpeechOpenAI(answer, outputFile, "onyx")
-        #if ( withAudio and len(answer) > 0 ): playAudio(outputFile)
-        if ( withAudio and len(answer) > 0 ): playAudioEmbedded(outputFile)
+        #if ( withAudio and len(answer) > 0 and ( not withMic ) ): playAudio(outputFile)
+        if ( withAudio and len(answer) > 0 and ( not withMic ) ): playAudioEmbedded(outputFile)
 
         # Sentiment analysis
         sentiment = ""
