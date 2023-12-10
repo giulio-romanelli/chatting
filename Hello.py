@@ -412,8 +412,8 @@ def run():
             st.session_state['k'] = str(int(st.session_state['k']) + 1)
 
     #    if withMic: st.rerun()
-    if withMic: 
-        time.sleep(3)
+    if ( withMic and volume > 0 ): 
+        #time.sleep(3)
         st.rerun()
 
 ##-------------------------------------------------------------------------------------##
