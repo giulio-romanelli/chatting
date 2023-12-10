@@ -413,9 +413,8 @@ def run():
 
     #    if withMic: st.rerun()
     if withMic: 
-        with st.spinner(' '):
-            time.sleep(2)
-            st.rerun()
+        time.sleep(3)
+        st.rerun()
 
 ##-------------------------------------------------------------------------------------##
 ## Main
