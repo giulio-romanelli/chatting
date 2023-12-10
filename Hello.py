@@ -326,6 +326,7 @@ def run():
     for message in st.session_state.messages:
         with st.chat_message(message["role"]):
             st.markdown(message["content"])
+    if ( withAudio and withMic ): playAudioEmbedded(outputFile)
 
     # audio = mic_recorder(start_prompt="Start recording...", stop_prompt="Stop recording...", key='recorder_test', just_once=True, use_container_width=True)
     # if audio:       
