@@ -326,10 +326,10 @@ def run():
         with st.chat_message(message["role"]):
             st.markdown(message["content"])
 
-    audio = mic_recorder(start_prompt="Start recording...", stop_prompt="Stop recording...", key='recorder_test', just_once=True, use_container_width=True)
-    if audio:       
-        st.audio(audio['bytes'])    
-    exit(-1)
+    # audio = mic_recorder(start_prompt="Start recording...", stop_prompt="Stop recording...", key='recorder_test', just_once=True, use_container_width=True)
+    # if audio:       
+    #     st.audio(audio['bytes'])    
+    # exit(-1)
 
     # Chat prompt
     prompt = ""
@@ -352,6 +352,7 @@ def run():
         if audio: 
             audio_bytes = audio['bytes']
             volume = len(audio_bytes)
+            st.write(volume)
         if ( volume > 0 ):
             with open(inputFile, mode='wb') as f:
                 f.write(audio_bytes)
