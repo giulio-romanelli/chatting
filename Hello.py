@@ -28,9 +28,10 @@ from pathlib import Path
 import numpy as np
 import matplotlib.pyplot as plt
 #from docx import Document
-from audio_recorder_streamlit import audio_recorder
+#from audio_recorder_streamlit import audio_recorder
 import math
 #import datetime
+from streamlit_mic_recorder import mic_recorder
 
 ##-------------------------------------------------------------------------------------##
 ## OpenAI
@@ -332,23 +333,25 @@ def run():
     # Audio prompt
     volume = -1
     question = ""
-    #if withMic: 
-    #     with st.spinner('\n Speak up \n'):
-    #         volume = recordAudio(inputFile)
-    #         if ( volume > 0 ): question=speechToTextOpenAI(inputFile, "IT")
-    # if ( len(question) > 0 ): prompt = question 
-    # Audio prompt
-    volume = -1
-    question = ""
-    audio_bytes = None
-    if withMic: 
-        # # Version with prompt (valid for clent - server)
-        audio_bytes = audio_recorder("", icon_name="microphone", icon_size="2x", energy_threshold=(-1.0, -1.0), pause_threshold=5.0)
-        if ( audio_bytes ):
-            volume = 1
+    if ( ( not prompt ) and withMic ): 
+        # Version with prompt (valid for clent - server) audio_recorder
+        #audio_bytes = audio_recorder("", icon_name="microphone", icon_size="2x")
+        # if ( audio_bytes ): volume = len(audio_bytes)
+        # if ( volume > 0 ):
+        #     with open(inputFile, mode='wb') as f:
+        #         f.write(audio_bytes)
+        #     question=speechToTextOpenAI(inputFile, "IT")
+        # FYI There is a bug in the library as audio_bytes is always restored
+        
+        audio = mic_recorder(start_prompt="Start recording...", stop_prompt="Stop recording...", key='recorder', just_once=True, use_container_width=True)
+        if audio: 
+            audio_bytes = audio['bytes']
+            volume = len(audio_bytes)
+        if ( volume > 0 ):
             with open(inputFile, mode='wb') as f:
                 f.write(audio_bytes)
             question=speechToTextOpenAI(inputFile, "IT")
+            
         # Version listening in the background (valid locally)     
         #with st.spinner('\n Speak up \n'):
             #volume = recordAudio(inputFile)
@@ -400,8 +403,8 @@ def run():
             fs = open('Sentiments.txt', 'a'); fs.write(str(sentimentId) + '\n'); fs.close()
             st.session_state['k'] = str(int(st.session_state['k']) + 1)
 
-        #if withMic: st.rerun()
-    #if withMic: st.rerun()
+        if withMic: st.rerun()
+    if withMic: st.rerun()
 
 ##-------------------------------------------------------------------------------------##
 ## Main

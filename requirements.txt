@@ -6,4 +6,4 @@ streamlit
 openai
 gTTS
 matplotlib
-audio-recorder-streamlit
+streamlit-mic-recorder
