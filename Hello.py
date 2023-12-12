@@ -129,57 +129,57 @@ def stopAudio( ):
     #     mixer.quit()
     return
 
-# ##-------------------------------------------------------------------------------------##
-# ## recordAudio
-# ##-------------------------------------------------------------------------------------##     
-# def recordAudio(outputFile, NOISE=100, SILENCE=2):
-#     # Defining audio variables
-#     CHUNK = 1024
-#     FORMAT = pyaudio.paInt16
-#     CHANNELS = 1
-#     RATE = 44100
+##-------------------------------------------------------------------------------------##
+## recordAudio
+##-------------------------------------------------------------------------------------##     
+def recordAudio(outputFile, NOISE=100, SILENCE=2):
+    # Defining audio variables
+    CHUNK = 1024
+    FORMAT = pyaudio.paInt16
+    CHANNELS = 1
+    RATE = 44100
       
-#     # Calling pyadio module and starting recording 
-#     p = pyaudio.PyAudio()
-#     stream = p.open(format=FORMAT,
-#                 channels=CHANNELS, 
-#                 rate=RATE, 
-#                 input=True,
-#                 frames_per_buffer=CHUNK)
+    # Calling pyadio module and starting recording 
+    p = pyaudio.PyAudio()
+    stream = p.open(format=FORMAT,
+                channels=CHANNELS, 
+                rate=RATE, 
+                input=True,
+                frames_per_buffer=CHUNK)
  
-#     stream.start_stream()
+    stream.start_stream()
  
-#     # Recording data until under threshold
-#     frames=[]
-#     isilent = 0
-#     isilentmax = int(RATE / CHUNK * SILENCE)
-#     while True:
-#         data=stream.read(CHUNK)
-#         data_chunk = array('h',data)
-#         volume = max(data_chunk)
-#         frames.append(data)
-#         if volume < NOISE:
-#             isilent = isilent + 1
-#         else:
-#             isilent = 0
-#         if isilent > isilentmax: 
-#             break
-#     done = 1
-#     if ( len(frames)-1 == isilentmax ): done = -1
+    # Recording data until under threshold
+    frames=[]
+    isilent = 0
+    isilentmax = int(RATE / CHUNK * SILENCE)
+    while True:
+        data=stream.read(CHUNK)
+        data_chunk = array('h',data)
+        volume = max(data_chunk)
+        frames.append(data)
+        if volume < NOISE:
+            isilent = isilent + 1
+        else:
+            isilent = 0
+        if isilent > isilentmax: 
+            break
+    done = 1
+    if ( len(frames)-1 == isilentmax ): done = -1
             
-#     # Stopping recording   
-#     stream.stop_stream()
-#     stream.close()
-#     p.terminate()
+    # Stopping recording   
+    stream.stop_stream()
+    stream.close()
+    p.terminate()
     
-#     # Saving file with wave module    
-#     wf = wave.open(outputFile, 'wb')
-#     wf.setnchannels(CHANNELS)
-#     wf.setsampwidth(p.get_sample_size(FORMAT))
-#     wf.setframerate(RATE)
-#     wf.writeframes(b''.join(frames))
-#     wf.close()
-#     return done
+    # Saving file with wave module    
+    wf = wave.open(outputFile, 'wb')
+    wf.setnchannels(CHANNELS)
+    wf.setsampwidth(p.get_sample_size(FORMAT))
+    wf.setframerate(RATE)
+    wf.writeframes(b''.join(frames))
+    wf.close()
+    return done
 
 ##-------------------------------------------------------------------------------------##
 ## speechToTextGoogle
@@ -332,11 +332,6 @@ def run():
             st.markdown(message["content"])
     if ( withAudio and withMic ): playAudioEmbedded(outputFile)
 
-    # audio = mic_recorder(start_prompt="Start recording...", stop_prompt="Stop recording...", key='recorder_test', just_once=True, use_container_width=True)
-    # if audio:       
-    #     st.audio(audio['bytes'])    
-    # exit(-1)
-
     # Chat prompt
     prompt = ""
     prompt = st.chat_input("Write here...")
@@ -367,6 +362,9 @@ def run():
         #with st.spinner('\n Speak up \n'):
             #volume = recordAudio(inputFile)
             #if ( volume > 0 ): question=speechToTextOpenAI(inputFile, "IT")
+            # else: 
+            #     time.sleep(1) 
+            #     st.rerun()
     if ( len(question) > 0 ): prompt = question 
 
     if prompt:
