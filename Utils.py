@@ -120,7 +120,7 @@ def playAudioEmbedded(filename, background=False):
             b64 = base64.b64encode(data).decode()
             # <audio controls autoplay="true"> in case you want to show controls
             md = f"""
-                <audio id="audio" controls autoplay>
+                <audio id="audio" controls autoplay="true">
                 <source src="data:audio/mp3;base64,{b64}" type="audio/mp3">
                 </audio>
                 """
