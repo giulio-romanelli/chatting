@@ -23,6 +23,6 @@ def Gallery() -> None:
 
     return
    
-#st.set_page_config(layout="wide", page_title="Gallery", page_icon="book")
-st.set_page_config(layout="centered", page_title="Gallery", page_icon="book")
+st.set_page_config(layout="wide", page_title="Gallery", page_icon="book")
+#st.set_page_config(layout="centered", page_title="Gallery", page_icon="book")
 Gallery()
