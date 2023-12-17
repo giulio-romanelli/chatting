@@ -120,7 +120,7 @@ def playAudioEmbedded(filename, background=False):
             b64 = base64.b64encode(data).decode()
             # <audio controls autoplay="true"> in case you want to show controls
             md = f"""
-                <audio id="audio" controls autoplay="true">
+                <audio id="audio" controls autoplay="true" style="width: 100%;">
                 <source src="data:audio/mp3;base64,{b64}" type="audio/mp3">
                 </audio>
                 """
@@ -283,7 +283,8 @@ def textToSpeechGoogle(text, filename, language="en"):
             myfile = open(filename, "wb")
             break                             
         except IOError:
-            stopAudio( )
+            #stopAudio( )
+            return
 
     speech = gTTS(text, lang=language)
     speech.save(filename)
@@ -299,7 +300,8 @@ def textToSpeechOpenAI(text, filename, language="alloy"):
             myfile = open(filename, "wb")
             break                             
         except IOError:
-            stopAudio( )   
+            #stopAudio( ) 
+            return 
     
     speech_file_path = Path(__file__).parent / filename
     client = OpenAI()
