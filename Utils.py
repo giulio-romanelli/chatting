@@ -35,50 +35,6 @@ import pandas as pd
 ##-------------------------------------------------------------------------------------## 
 #os.environ['OPENAI_API_KEY'] = 'XXX'
 
-##-------------------------------------------------------------------------------------##
-## chatBot
-##-------------------------------------------------------------------------------------##
-def chatBot(input):
-    client = OpenAI()
-    completion = client.chat.completions.create(
-        model="gpt-3.5-turbo",
-        messages=[
-        {"role": "system", "content": "Sei un assistente virtuale. Rispondi al massimo con 50 parole"},
-        #{"role": "system", "content": "You are the best children story author in the world. Write a story about this topic"},
-        {"role": "user", "content": input}
-        ]
-    )
-    return(completion.choices[0].message.content)
-
-##-------------------------------------------------------------------------------------##
-## summarizeBot
-##-------------------------------------------------------------------------------------##
-def summarizeBot(input):
-    client = OpenAI()
-    completion = client.chat.completions.create(
-        model="gpt-3.5-turbo",
-        messages=[
-        {"role": "system", "content": "Riassumi il testo fornito"},
-        {"role": "user", "content": input}
-        ]
-    )
-    return(completion.choices[0].message.content)
-
-##-------------------------------------------------------------------------------------##
-## sentimentAnalysis
-##-------------------------------------------------------------------------------------##
-def sentimentAnalysis(transcript):
-    content = f"What emotion is the following text expressing?\n{transcript}"
-    client = OpenAI()
-    completion = client.chat.completions.create(
-        model="gpt-3.5-turbo",
-        messages=[
-        {"role": "system", "content": "You are a helpful assistant. Answer with one word choosing between Positive, Neutral, Negative"},
-        {"role": "user", "content": content}
-        ]
-    )
-    return(completion.choices[0].message.content)
-
 # ##-------------------------------------------------------------------------------------##
 # ## playWav (only on device not client)
 # ##-------------------------------------------------------------------------------------##   
