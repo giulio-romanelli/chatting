@@ -10,7 +10,7 @@ from Utils import *
 # TODO Add utility to print and download pdf with story and images
 # TODO Fix Audio with mic issues
 # TODO Creation date inside story .txt
-# TODO Solve for OpenAI key in secrets
+# TODO Solve for OpenAI key in secrets, otherwise disabled
 LOGGER = get_logger(__name__)
 def run():
 
