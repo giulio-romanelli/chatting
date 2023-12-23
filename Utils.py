@@ -33,7 +33,7 @@ import pandas as pd
 ##-------------------------------------------------------------------------------------##
 ## OpenAI
 ##-------------------------------------------------------------------------------------## 
-os.environ['OPENAI_API_KEY'] = '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'
+#os.environ['OPENAI_API_KEY'] = 'Check Secrets.txt'
 
 # ##-------------------------------------------------------------------------------------##
 # ## playWav (only on device not client)
