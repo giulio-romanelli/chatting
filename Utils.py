@@ -259,6 +259,8 @@ def textToSpeechOpenAI(text, filename, language="alloy"):
             #stopAudio( ) 
             return 
     
+    print("Loading ttsOAI")
+
     speech_file_path = Path(__file__).parent / filename
     client = OpenAI()
     response = client.audio.speech.create(
