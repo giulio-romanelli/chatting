@@ -6,6 +6,10 @@ from Utils import *
 ##-------------------------------------------------------------------------------------##
 ## Main
 ##-------------------------------------------------------------------------------------##
+# TODO Split text so at max 4096 characters for text to speech
+# TODO Add utility to print and download pdf with story and images
+# TODO Fix Audio with mic issues
+# TODO Creation date inside story .txt
 LOGGER = get_logger(__name__)
 def run():
 
