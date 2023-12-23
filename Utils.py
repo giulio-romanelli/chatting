@@ -33,7 +33,11 @@ import pandas as pd
 ##-------------------------------------------------------------------------------------##
 ## OpenAI
 ##-------------------------------------------------------------------------------------## 
-#os.environ['OPENAI_API_KEY'] = 'Check Secrets.txt'
+localSecrets = Path("./localSecrets.txt")
+if localSecrets.is_file():
+    f = open(localSecrets, "r")
+    localKey = str(f.read())
+    os.environ['OPENAI_API_KEY'] = localKey
 
 # ##-------------------------------------------------------------------------------------##
 # ## playWav (only on device not client)
