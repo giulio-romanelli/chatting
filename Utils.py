@@ -20,7 +20,7 @@ import base64
 import math
 import numpy as np
 import matplotlib.pyplot as plt
-#from docx import Document
+from docx import Document
 
 import streamlit as st
 #from audio_recorder_streamlit import audio_recorder
@@ -320,6 +320,59 @@ def createReport(language = "en"):
     # document.save('Summary.docx')
 
     return summary
+
+##-------------------------------------------------------------------------------------##
+## printStories
+##-------------------------------------------------------------------------------------##
+from docx.enum.text import WD_ALIGN_PARAGRAPH, WD_BREAK
+from docx.shared import Inches, Cm, Pt
+import docx2pdf
+import pythoncom
+def printStories(withPdf=False):
+    
+    document = Document()
+    font = document.styles['Normal'].font
+    font.size = Pt(16)
+    stories = os.listdir("./stories")
+    N = len(stories)
+    for k in range(0, N):
+        filepath = "./stories/" + str(stories[k])
+        fid = open(filepath, 'r', encoding='latin-1')
+        text = fid.read()
+        temp = text.split("\n",4)
+        fid.close()
+        title = temp[3]
+        body = temp[4]
+
+        document.add_heading(title, level=0)
+        paragraphs = body.splitlines()
+        for j in range(0, len(paragraphs)):
+            if ( len(paragraphs[j]) > 1 ):
+               paragraph = document.add_paragraph(paragraphs[j])
+               paragraph.alignment = WD_ALIGN_PARAGRAPH.JUSTIFY_LOW
+        picturePath = Path("./images/" + stories[k] + ".png")
+        if picturePath.is_file():   
+            picture = document.add_picture("./images/" + stories[k] + ".png", width=Inches(6))
+            last_paragraph = document.paragraphs[-1] 
+            last_paragraph.alignment = WD_ALIGN_PARAGRAPH.CENTER
+        paragraph = document.add_page_break()
+    document.save('myStories.docx')
+    
+    if withPdf:
+        pythoncom.CoInitialize()
+        docx2pdf.convert("myStories.docx")
+
+##-------------------------------------------------------------------------------------##
+## displayPDF
+##-------------------------------------------------------------------------------------##
+def displayPDF(file):
+    # Opening file from file path
+    with open(file, "rb") as f:
+        base64_pdf = base64.b64encode(f.read()).decode('utf-8')
+    # Embedding PDF in HTML
+    pdf_display = F'<iframe src="data:application/pdf;base64,{base64_pdf}" width="100%" height="940" type="application/pdf"></iframe>'
+    # Displaying File
+    st.markdown(pdf_display, unsafe_allow_html=True)
 
 ##-------------------------------------------------------------------------------------##
 ## chatVoiceBot

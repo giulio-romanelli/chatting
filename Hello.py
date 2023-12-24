@@ -7,9 +7,7 @@ from Utils import *
 ## Main
 ##-------------------------------------------------------------------------------------##
 # TODO Split text so at max 4096 characters for text to speech
-# TODO Add utility to print and download pdf with story and images
 # TODO Fix Audio with mic issues
-# TODO Creation date inside story .txt
 LOGGER = get_logger(__name__)
 def run():
 
@@ -131,6 +129,13 @@ def run():
     st.write("**List of your bedtime stories**")
     result = st.data_editor(df, hide_index=True, use_container_width=True, disabled=True)
     #st.table(df, hide_index=True)
+
+    # try:
+    #     with open('./myStories.docx', 'rb') as f:
+    #         clicked = st.download_button('Download all your bedtime stories', f, file_name='myStories.docx', use_container_width=True) 
+    #         if clicked: printStories(False)
+    # except:
+    #     printStories(False)
 
 if __name__ == "__main__":
     run()

@@ -7,3 +7,5 @@ openai
 gTTS
 matplotlib
 streamlit-mic-recorder
+python-docx
+docx2pdf
