@@ -20,7 +20,7 @@ def Print() -> None:
     else:
         with open('./myStories.docx', 'rb') as f:
             clicked = st.download_button('Download your book of bedtime stories...', f, file_name='myStories.docx', use_container_width=True) 
-        displayPDF("myStories.docx")
+            
     return
    
 #st.set_page_config(layout="wide", page_title="Print", page_icon="book")
