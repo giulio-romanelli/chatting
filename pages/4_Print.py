@@ -10,7 +10,7 @@ def Print() -> None:
     st.markdown("# Print your book of stories...")
     
     withPDF = False # Only works locally with docx2pdf
-    with st.spinner('\n Preparing your book of stories... \n'):
+    with st.spinner('\n Preparing your book of bedtime stories... \n'):
         printStories()
     
     if withPDF:
@@ -19,8 +19,8 @@ def Print() -> None:
         displayPDF("myStories.pdf")
     else:
         with open('./myStories.docx', 'rb') as f:
-            clicked = st.download_button('Download all your bedtime stories', f, file_name='myStories.docx', use_container_width=True) 
-
+            clicked = st.download_button('Download your book of bedtime stories...', f, file_name='myStories.docx', use_container_width=True) 
+        displayPDF("myStories.docx")
     return
    
 #st.set_page_config(layout="wide", page_title="Print", page_icon="book")
