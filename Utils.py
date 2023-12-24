@@ -327,7 +327,7 @@ def createReport(language = "en"):
 from docx.enum.text import WD_ALIGN_PARAGRAPH, WD_BREAK
 from docx.shared import Inches, Cm, Pt
 import docx2pdf
-import pythoncom
+#import pythoncom
 def printStories(withPdf=False):
     
     document = Document()
@@ -359,7 +359,7 @@ def printStories(withPdf=False):
     document.save('myStories.docx')
     
     if withPdf:
-        pythoncom.CoInitialize()
+        #pythoncom.CoInitialize()
         docx2pdf.convert("myStories.docx")
 
 ##-------------------------------------------------------------------------------------##
