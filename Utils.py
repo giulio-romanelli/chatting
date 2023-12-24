@@ -326,8 +326,6 @@ def createReport(language = "en"):
 ##-------------------------------------------------------------------------------------##
 from docx.enum.text import WD_ALIGN_PARAGRAPH, WD_BREAK
 from docx.shared import Inches, Cm, Pt
-import docx2pdf
-#import pythoncom
 def printStories(withPdf=False):
     
     document = Document()
@@ -357,15 +355,12 @@ def printStories(withPdf=False):
             last_paragraph.alignment = WD_ALIGN_PARAGRAPH.CENTER
         paragraph = document.add_page_break()
     document.save('myStories.docx')
-    
-    if withPdf:
-        #pythoncom.CoInitialize()
-        docx2pdf.convert("myStories.docx")
 
 ##-------------------------------------------------------------------------------------##
 ## displayPDF
 ##-------------------------------------------------------------------------------------##
 def displayPDF(file):
+
     # Opening file from file path
     with open(file, "rb") as f:
         base64_pdf = base64.b64encode(f.read()).decode('utf-8')
