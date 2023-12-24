@@ -4,7 +4,7 @@ from Utils import *
 ## Print page
 ##-------------------------------------------------------------------------------------##
 def Print() -> None:
-
+    
     st.markdown("# Print your book of stories...")
     with st.spinner('\n Preparing your book of stories... \n'):
         printStories(True)
