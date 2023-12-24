@@ -38,8 +38,10 @@ def Write() -> None:
     txt = st.text_area( "Here it is your story...", output, height = int(output_words/10.0*30) )
 
     title = output.partition('\n')[0]
+    title.replace('"','')
     if ( len(title) > 0 ):
         fid = open("./stories/" + str(title) + ".txt", 'w', encoding='latin-1')
+        fid.write(datetime.datetime.now().strftime("%d %b %Y")+"\n") 
         fid.write(str(output_words)+"\n")
         fid.write(language+"\n")
         fid.write(output)

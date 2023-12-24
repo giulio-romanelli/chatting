@@ -31,18 +31,19 @@ def run():
         filepath = "./stories/" + str(stories[k])
         fid = open(filepath, 'r', encoding='latin-1')
         text = fid.read()
-        temp = text.split("\n",3)
+        temp = text.split("\n",4)
         fid.close()
-        Wwords[k] = temp[0]
-        Llanguages[k] = temp[1]
-        Ttitles[k] = temp[2]
         creation_time = os.path.getctime(filepath)
-        creation_datetime = time.strftime("%d %b %Y", time.gmtime(creation_time))
-        Ddates[k] = creation_datetime
+        #creation_datetime = time.strftime("%d %b %Y", time.gmtime(creation_time))
+        #Ddates[k] = creation_datetime
+        Ddates[k] = temp[0]
         maxTime = max( creation_time, maxTime )
+        Wwords[k] = temp[1]
+        Llanguages[k] = temp[2]
+        Ttitles[k] = temp[3]
 
     # Summary over the last Ndays days
-    Npast = 7
+    Npast = 15
     uniqueLanguages = np.unique(Llanguages)
     Nlanguages = len(uniqueLanguages)
     today = time.time()

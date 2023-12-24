@@ -1,5 +1,6 @@
 input.wav
 output.mp3
+temp.mp3
 __pycache__/Utils.cpython-38.pyc
 __pycache__/Utils.cpython-311.pyc
 __pycache__/Utils.cpython-312.pyc

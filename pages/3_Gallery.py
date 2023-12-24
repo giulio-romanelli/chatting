@@ -8,7 +8,7 @@ def Gallery() -> None:
     st.markdown("# Browse through your drawings...")
     images = os.listdir("./images")
     N = len(images)
-    cols = st.columns(2)
+    cols = st.columns(3)
     k = 0
     addRows = True
     while addRows:

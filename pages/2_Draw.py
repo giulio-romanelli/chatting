@@ -11,10 +11,11 @@ def Draw() -> None:
     option = st.selectbox('Which story do you want to read?', stories)
     fid = open("./stories/" + str(option), 'r', encoding='latin-1')
     text = fid.read()
-    words = text.split("\n",2)[0]
-    language = text.split("\n",2)[1]
-    body = text.split("\n",2)[2]
-
+    tmp = text.split("\n",3)
+    date = tmp[0]
+    words = tmp[1]
+    language = tmp[2]
+    body = tmp[3]
     st.write("\n")
     click = st.button("Create a new drawing...", use_container_width=True)
     st.divider()

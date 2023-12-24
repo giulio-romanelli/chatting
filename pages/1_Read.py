@@ -12,9 +12,11 @@ def Read() -> None:
     option = st.selectbox('Which story do you want to read?', stories)
     fid = open("./stories/" + str(option), 'r', encoding='latin-1')
     text = fid.read()
-    words = text.split("\n",2)[0]
-    language = text.split("\n",2)[1]
-    body = text.split("\n",2)[2]
+    tmp = text.split("\n",3)
+    date = tmp[0]
+    words = tmp[1]
+    language = tmp[2]
+    body = tmp[3]
     st.text_input('Language:', language, disabled=True)
     st.text_input('Length:', words + " words, approx. " + str(math.ceil(60.0*int(words)/120.0/60.0)) + " minutes", disabled=True)
     voice = st.selectbox('Who should read the story?', ("chatbot", "alloy", "onyx", "fable"))
@@ -23,7 +25,7 @@ def Read() -> None:
 
     if click:
         outputFile = "temp.mp3"
-        if ( voice == "alloy" or voice == "onyx" or voice == "fable" ):
+        if ( ( voice == "alloy" or voice == "onyx" or voice == "fable" ) and ( len(body) < 4096 ) ):
             textToSpeechOpenAI(body, outputFile, language=voice)
         else:
             language_code = "en"
