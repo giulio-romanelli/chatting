@@ -9,3 +9,4 @@ matplotlib
 streamlit-mic-recorder
 python-docx
 docx2pdf
+pywin32
