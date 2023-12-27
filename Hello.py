@@ -30,10 +30,6 @@ def run():
         fid = open(filepath, 'r', encoding='latin-1')
         text = fid.read()
         fid.close()
-        print(text)
-        if (len(text) < 1): 
-            os.remove("./stories/" + str(stories[k]))
-            st.rerun()
         temp = text.split("\n",4)
         creation_time = os.path.getctime(filepath)
         #creation_datetime = time.strftime("%d %b %Y", time.gmtime(creation_time))
@@ -43,6 +39,10 @@ def run():
         Wwords[k] = temp[1]
         Llanguages[k] = temp[2]
         Ttitles[k] = temp[3]
+        if (len(text) < 1 or len(temp[3]) < 1 or len(temp[4]) < 1 ): 
+            print(text)
+            os.remove("./stories/" + str(stories[k]))
+            st.rerun()
 
     # Summary over the last Ndays days
     Npast = 15
