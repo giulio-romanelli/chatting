@@ -30,6 +30,7 @@ def run():
         fid = open(filepath, 'r', encoding='latin-1')
         text = fid.read()
         fid.close()
+        print(text)
         if (len(text) < 1): 
             os.remove("./stories/" + str(stories[k]))
             st.rerun()
