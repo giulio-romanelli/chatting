@@ -29,8 +29,11 @@ def run():
         filepath = "./stories/" + str(stories[k])
         fid = open(filepath, 'r', encoding='latin-1')
         text = fid.read()
-        temp = text.split("\n",4)
         fid.close()
+        if (len(text) < 1): 
+            os.remove("./stories/" + str(stories[k]))
+            st.rerun()
+        temp = text.split("\n",4)
         creation_time = os.path.getctime(filepath)
         #creation_datetime = time.strftime("%d %b %Y", time.gmtime(creation_time))
         #Ddates[k] = creation_datetime
