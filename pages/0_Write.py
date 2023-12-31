@@ -9,7 +9,7 @@ def Write() -> None:
     #st.write("Get creative and shape your own story choosing your favourite characters, topic and setting. You can also specify length of the story and its language")
     
     characters = st.text_input("Who are the main characters of this story?")
-    setting = st.text_input("Where and where is this story set?")
+    setting = st.text_input("Where and when is this story set?")
     topic = st.text_input("What is the topic of this story?")
     language = st.selectbox("Which language do you want to crate this story in?", ('English', 'Italian')) 
     length = st.slider("How many words is this story long?", 0, 1000, 500, 50)
