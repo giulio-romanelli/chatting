@@ -8,7 +8,7 @@ def Draw() -> None:
     st.markdown("# Create a drawing for your story...")
      
     stories = os.listdir("./stories")
-    option = st.selectbox('Which story do you want to read?', stories)
+    option = st.selectbox('Which story do you want to create a drawing for?', stories)
     fid = open("./stories/" + str(option), 'r', encoding='latin-1')
     text = fid.read()
     tmp = text.split("\n",3)

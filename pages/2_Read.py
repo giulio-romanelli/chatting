@@ -36,7 +36,7 @@ def Read() -> None:
 
     st.divider()
     output_words = len(body.split())
-    txt = st.text_area( "Here it is your story...", body, height = int(output_words/10.0*30) )
+    txt = st.text_area( "Read your story here...", body, height = int(output_words/10.0*30) )
 
     return
    

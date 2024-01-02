@@ -40,12 +40,11 @@ def run():
         Llanguages[k] = temp[2]
         Ttitles[k] = temp[3]
         if (len(text) < 1 or len(temp[3]) < 1 or len(temp[4]) < 1 ): 
-            print(text)
             os.remove("./stories/" + str(stories[k]))
             st.rerun()
 
     # Summary over the last Ndays days
-    Npast = 15
+    Npast = 30
     uniqueLanguages = np.unique(Llanguages)
     Nlanguages = len(uniqueLanguages)
     today = time.time()
@@ -74,13 +73,34 @@ def run():
                 if ( WordsK >= 600 ): pastSstories[3][i] += 1
                 for j in range(0, Nlanguages):
                     if ( LanguageK == uniqueLanguages[j] ): pastSstories[4+j][i] += 1
+    
+    # Totals                
+    totalSstories = [ int(0) for i in range(0, Nlanguages+4) ]
+    totalWwords = [ int(0) for i in range(0, Nlanguages+4) ] 
+    for k in range(0, N):
+        WordsK = int(Wwords[k])
+        LanguageK = Llanguages[k]
+        totalSstories[0] += 1
+        totalWwords[0] += WordsK
+        if ( WordsK < 300 ): totalSstories[1] += 1; totalWwords[1] += WordsK
+        if ( WordsK >= 300 and WordsK < 600 ): totalSstories[2] += 1; totalWwords[2] += WordsK
+        if ( WordsK >= 600 ): totalSstories[3] += 1; totalWwords[3] += WordsK
+        for j in range(0, Nlanguages):
+            if ( LanguageK == uniqueLanguages[j] ): totalSstories[4+j] += 1; totalWwords[4+j] += WordsK
+    deltaSstories = [ int(0) for i in range(0, Nlanguages+4) ]
+    deltaWwords = [ int(0) for i in range(0, Nlanguages+4) ] 
+    for j in range(0, Nlanguages+4):
+        deltaSstories[j] = totalSstories[j] - sum(pastSstories[j][:])
+        deltaWwords[j] = totalWwords[j] - sum(pastWwords[j][:])      
 
     # Cumulated
     cumulatedWwords = [ [ int(0) ]*Npast for i in range(0, Nlanguages+4) ]
     cumulatedSstories = [ [ int(0) ]*Npast for i in range(0, Nlanguages+4) ]  
     for j in range(0, Nlanguages+4):
-        cumulatedWwords[j][Npast-1] = pastWwords[j][Npast-1] 
-        cumulatedSstories[j][Npast-1] = pastSstories[j][Npast-1]
+        #cumulatedWwords[j][Npast-1] = pastWwords[j][Npast-1] 
+        #cumulatedSstories[j][Npast-1] = pastSstories[j][Npast-1]
+        cumulatedWwords[j][Npast-1] = pastWwords[j][Npast-1] + deltaWwords[j] # Sum delta outside the time window for reporting
+        cumulatedSstories[j][Npast-1] = pastSstories[j][Npast-1] + deltaSstories[j] # Sum delta outside the time window for reporting
     for i in range(0, Npast-1):
         for j in range(0, Nlanguages+4):
             cumulatedWwords[j][Npast-1-i-1] = cumulatedWwords[j][Npast-1-i] + pastWwords[j][Npast-1-i-1]

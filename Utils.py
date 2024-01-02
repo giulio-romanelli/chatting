@@ -29,6 +29,7 @@ from streamlit.logger import get_logger
 from typing import Any
 import requests
 import pandas as pd
+import zipfile
 
 ##-------------------------------------------------------------------------------------##
 ## OpenAI
@@ -322,11 +323,11 @@ def createReport(language = "en"):
     return summary
 
 ##-------------------------------------------------------------------------------------##
-## printStories
+## printStoriesWord
 ##-------------------------------------------------------------------------------------##
 from docx.enum.text import WD_ALIGN_PARAGRAPH, WD_BREAK
 from docx.shared import Inches, Cm, Pt
-def printStories(withPdf=False):
+def printStoriesWord(withPdf=False):
     
     document = Document()
     font = document.styles['Normal'].font
@@ -477,3 +478,21 @@ def chatVoiceBot(language = "IT"):
     # Refresh if mic used 
     if ( withMic and volume > 0 ): 
         st.rerun()
+
+##-------------------------------------------------------------------------------------##
+## zipFolder
+##-------------------------------------------------------------------------------------##
+def zipFolder( dirpath, filename ):
+    zf = zipfile.ZipFile(filename, "w")
+    for dirname, subdirs, files in os.walk(dirpath):
+        zf.write(dirname)
+        for filename in files:
+            zf.write(os.path.join(dirname, filename))
+    zf.close()   
+
+##-------------------------------------------------------------------------------------##
+## unzipFolder
+##-------------------------------------------------------------------------------------##
+def unzipFolder( filename, dirpath ):
+    with zipfile.ZipFile(filename,"r") as zf:
+        zf.extractall(dirpath)  
