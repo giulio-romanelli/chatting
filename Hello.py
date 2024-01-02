@@ -8,6 +8,7 @@ from Utils import *
 ##-------------------------------------------------------------------------------------##
 # TODO Split text so at max 4096 characters for text to speech
 # TODO Fix Audio with mic issues
+# TODO Move to default user folder and login
 LOGGER = get_logger(__name__)
 def run():
 
