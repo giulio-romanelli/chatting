@@ -486,8 +486,8 @@ def zipFolder( dirpath, filename ):
     zf = zipfile.ZipFile(filename, "w")
     for dirname, subdirs, files in os.walk(dirpath):
         zf.write(dirname)
-        for filename in files:
-            zf.write(os.path.join(dirname, filename))
+        for ff in files:
+            zf.write(os.path.join(dirname, ff))
     zf.close()
     return
 
