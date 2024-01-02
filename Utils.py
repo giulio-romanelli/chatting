@@ -488,11 +488,13 @@ def zipFolder( dirpath, filename ):
         zf.write(dirname)
         for filename in files:
             zf.write(os.path.join(dirname, filename))
-    zf.close()   
+    zf.close()
+    return
 
 ##-------------------------------------------------------------------------------------##
 ## unzipFolder
 ##-------------------------------------------------------------------------------------##
 def unzipFolder( filename, dirpath ):
     with zipfile.ZipFile(filename,"r") as zf:
-        zf.extractall(dirpath)  
+        zf.extractall(dirpath)
+    return  
