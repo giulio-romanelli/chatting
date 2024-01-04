@@ -6,17 +6,9 @@ from Utils import *
 def Chat() -> None:
 
     st.markdown("# Talk to me...")
+    verticalSpaceSideBar()
     language = st.sidebar.selectbox('Language', ("en", "it"))
     chatVoiceBot( language )
-
-    # Extend vertical spacing of sidebar
-    st.sidebar.markdown("""
-        <style>
-        [data-testid='stSidebarNav'] > ul {
-            min-height: 40vh;
-        } 
-        </style>
-        """, unsafe_allow_html=True)
 
     return
    

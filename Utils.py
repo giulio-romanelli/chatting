@@ -274,6 +274,20 @@ def textToSpeechOpenAI(text, filename, language="alloy"):
     response.stream_to_file(speech_file_path)
 
 ##-------------------------------------------------------------------------------------##
+## verticalSpaceSideBar
+##-------------------------------------------------------------------------------------##
+def verticalSpaceSideBar():
+ 
+    # Extend vertical spacing of sidebar
+    st.sidebar.markdown("""
+        <style>
+        [data-testid='stSidebarNav'] > ul {
+            min-height: 45vh;
+        } 
+        </style>
+        """, unsafe_allow_html=True)
+
+##-------------------------------------------------------------------------------------##
 ## createReport
 ##-------------------------------------------------------------------------------------##
 def createReport(language = "en"):
@@ -323,11 +337,47 @@ def createReport(language = "en"):
     return summary
 
 ##-------------------------------------------------------------------------------------##
-## printStoriesWord
+## createStoriesMp3
+##-------------------------------------------------------------------------------------##
+def createStoriesMp3():
+
+    # Initialize progress bar
+    myprogress = st.sidebar.progress(0, "Creating audio book...")
+    
+    stories = os.listdir("./stories")
+    outputFile = "myStories.mp3"
+    tempFile = "temp.mp3"
+    voice = "alloy"
+    N = len(stories)
+    mf = open(outputFile, "wb")
+    mf.close()
+    for k in range(0, N):
+        filepath = "./stories/" + str(stories[k])
+        fid = open(filepath, 'r', encoding='latin-1')
+        text = fid.read()
+        temp = text.split("\n",3)
+        fid.close()
+        language = temp[2]
+        body = temp[3]
+
+        if ( ( voice == "alloy" or voice == "onyx" or voice == "fable" ) and ( len(body) < 4096 ) ):
+            textToSpeechOpenAI(body, tempFile, language=voice)
+        else:
+            language_code = "en"
+            if language == "Italian": language_code = "it"
+            textToSpeechGoogle(body, tempFile, language_code)
+
+        with open(outputFile, "ab") as mf, open(tempFile, "rb") as tf:
+            mf.write(tf.read())
+
+        myprogress.progress(float((k+1)/N),"Creating audio book...")
+
+##-------------------------------------------------------------------------------------##
+## createStoriesWord
 ##-------------------------------------------------------------------------------------##
 from docx.enum.text import WD_ALIGN_PARAGRAPH, WD_BREAK
 from docx.shared import Inches, Cm, Pt
-def printStoriesWord(withPdf=False):
+def createStoriesWord(withPdf=False):
     
     document = Document()
     font = document.styles['Normal'].font
@@ -369,6 +419,26 @@ def displayPDF(file):
     pdf_display = F'<iframe src="data:application/pdf;base64,{base64_pdf}" width="100%" height="940" type="application/pdf"></iframe>'
     # Displaying File
     st.markdown(pdf_display, unsafe_allow_html=True)
+
+##-------------------------------------------------------------------------------------##
+## zipFolder
+##-------------------------------------------------------------------------------------##
+def zipFolder( dirpath, filename ):
+    zf = zipfile.ZipFile(filename, "w")
+    for dirname, subdirs, files in os.walk(dirpath):
+        zf.write(dirname)
+        for ff in files:
+            zf.write(os.path.join(dirname, ff))
+    zf.close()
+    return
+
+##-------------------------------------------------------------------------------------##
+## unzipFolder
+##-------------------------------------------------------------------------------------##
+def unzipFolder( filename, dirpath ):
+    with zipfile.ZipFile(filename,"r") as zf:
+        zf.extractall(dirpath)
+    return  
 
 ##-------------------------------------------------------------------------------------##
 ## chatVoiceBot
@@ -478,23 +548,3 @@ def chatVoiceBot(language = "IT"):
     # Refresh if mic used 
     if ( withMic and volume > 0 ): 
         st.rerun()
-
-##-------------------------------------------------------------------------------------##
-## zipFolder
-##-------------------------------------------------------------------------------------##
-def zipFolder( dirpath, filename ):
-    zf = zipfile.ZipFile(filename, "w")
-    for dirname, subdirs, files in os.walk(dirpath):
-        zf.write(dirname)
-        for ff in files:
-            zf.write(os.path.join(dirname, ff))
-    zf.close()
-    return
-
-##-------------------------------------------------------------------------------------##
-## unzipFolder
-##-------------------------------------------------------------------------------------##
-def unzipFolder( filename, dirpath ):
-    with zipfile.ZipFile(filename,"r") as zf:
-        zf.extractall(dirpath)
-    return  
