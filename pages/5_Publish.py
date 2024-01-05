@@ -12,7 +12,6 @@ def Publish() -> None:
     
     # Extend vertical spacing of sidebar
     verticalSpaceSideBar()
-
     #with st.spinner('\n Preparing your book of stories... \n'):
     #    printStoriesWord()
     # PDF only works locally with docx2pdf
