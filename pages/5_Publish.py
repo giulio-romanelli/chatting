@@ -11,13 +11,7 @@ def Publish() -> None:
     st.markdown("# Publish your book of stories...")
     
     # Extend vertical spacing of sidebar
-    #verticalSpaceSideBar()
-    #with st.spinner('\n Preparing your book of stories... \n'):
-    #    printStoriesWord()
-    # PDF only works locally with docx2pdf
-    #pythoncom.CoInitialize()
-    #docx2pdf.convert("myStories.docx")
-    #displayPDF("myStories.pdf")
+    verticalSpaceSideBar()
 
     # Create word document
     if 'docx' not in st.session_state:
@@ -46,6 +40,9 @@ def Publish() -> None:
         if clicked:
             st.session_state["pdf"] = True
             createStoriesPdf()
+            # createStoriesWord()
+            # pythoncom.CoInitialize()
+            # docx2pdf.convert("myStories.docx")
             time.sleep(1)
             st.rerun()
 
@@ -64,10 +61,10 @@ def Publish() -> None:
             time.sleep(1)
             st.rerun()
 
-    # Show pdf
-    pdfPath = Path("./myStories.pdf")
-    if pdfPath.is_file(): 
-        displayPDF("./myStories.pdf")
+    # Show pdf (not working with pdf generated locally?)
+    # pdfPath = Path("./myStories.pdf")
+    # if pdfPath.is_file(): 
+    #displayPDF("myStories.pdf")
 
     return
    
