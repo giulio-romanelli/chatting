@@ -11,7 +11,7 @@ def Publish() -> None:
     st.markdown("# Publish your book of stories...")
     
     # Extend vertical spacing of sidebar
-    verticalSpaceSideBar()
+    #verticalSpaceSideBar()
     #with st.spinner('\n Preparing your book of stories... \n'):
     #    printStoriesWord()
     # PDF only works locally with docx2pdf
@@ -33,6 +33,21 @@ def Publish() -> None:
             createStoriesWord()
             time.sleep(1)
             st.rerun()
+    
+    # Create pdf document
+    if 'pdf' not in st.session_state:
+        st.session_state['pdf'] = False
+    if st.session_state["pdf"]:
+        with open('./myStories.pdf', 'rb') as f:
+            clicked = st.download_button('Download your book of stories (.pdf)...', f, file_name='myStories.pdf', use_container_width=True)  
+            st.session_state["pdf"] = False
+    else:
+        clicked = st.button("Create your book of stories (.pdf)...", use_container_width=True)
+        if clicked:
+            st.session_state["pdf"] = True
+            createStoriesPdf()
+            time.sleep(1)
+            st.rerun()
 
     # Create mp3 overall
     if 'mp3' not in st.session_state:
@@ -48,6 +63,11 @@ def Publish() -> None:
             createStoriesMp3()
             time.sleep(1)
             st.rerun()
+
+    # Show pdf
+    pdfPath = Path("./myStories.pdf")
+    if pdfPath.is_file(): 
+        displayPDF("./myStories.pdf")
 
     return
    

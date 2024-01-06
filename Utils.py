@@ -377,7 +377,10 @@ def createStoriesMp3():
 ##-------------------------------------------------------------------------------------##
 from docx.enum.text import WD_ALIGN_PARAGRAPH, WD_BREAK
 from docx.shared import Inches, Cm, Pt
-def createStoriesWord(withPdf=False):
+def createStoriesWord():
+
+    # Initialize progress bar
+    myprogress = st.sidebar.progress(0, "Creating book...")
     
     document = Document()
     font = document.styles['Normal'].font
@@ -405,18 +408,82 @@ def createStoriesWord(withPdf=False):
             last_paragraph = document.paragraphs[-1] 
             last_paragraph.alignment = WD_ALIGN_PARAGRAPH.CENTER
         paragraph = document.add_page_break()
+    
+        myprogress.progress(float((k+1)/N),"Creating book...")
+    
     document.save('myStories.docx')
+
+##-------------------------------------------------------------------------------------##
+## createStoriesPdf
+##-------------------------------------------------------------------------------------##
+from pdfme import build_pdf
+def createStoriesPdf():
+
+    # Initialize progress bar
+    myprogress = st.sidebar.progress(0, "Creating book...")
+    
+    document = {
+    "style": {
+        "margin_bottom": 15, "text_align": "j",
+        "page_size": "letter", "margin": [60, 50]
+    },
+    "formats": {
+        "url": {"c": "blue", "u": 1},
+        "title": {"b": 1, "s": 30}
+    },
+    "running_sections": {
+        "footer": {
+            "x": "left", "y": 740, "height": "bottom", "style": {"text_align": "c"},
+            "content": [{".": ["Page ", {"var": "$page"}]}]
+        },
+    },
+    "sections": [ 
+        {"style": { "s":15, "f":"Times"},
+        "running_sections": ["footer"],
+        "content": [
+            {".": "My book of bedtime stories", "style": "title"},
+            ["Published on " + str(datetime.date.today())],
+            ]
+    }],
+    }
+
+    stories = os.listdir("./stories")
+    N = len(stories)
+    for k in range(0, N):
+        filepath = "./stories/" + str(stories[k])
+        fid = open(filepath, 'r', encoding='latin-1')
+        text = fid.read()
+        temp = text.split("\n",4)
+        fid.close()
+        title = temp[3]
+        body = temp[4]
+
+        document["sections"].append({
+            "style": { "s":14, "f":"Times"},
+            "running_sections": ["footer"],
+            "content": [
+                {".": title, "style": "title"},
+                [body],
+                {"image": "./images/" + stories[k] + ".png"},
+                ]
+        })
+  
+        myprogress.progress(float((k+1)/N),"Creating book...")
+    
+    with open('myStories.pdf', 'wb') as f:
+        build_pdf(document, f)
 
 ##-------------------------------------------------------------------------------------##
 ## displayPDF
 ##-------------------------------------------------------------------------------------##
-def displayPDF(file):
+def displayPDF(filename):
 
     # Opening file from file path
-    with open(file, "rb") as f:
+    with open(filename, "rb") as f:
         base64_pdf = base64.b64encode(f.read()).decode('utf-8')
     # Embedding PDF in HTML
     pdf_display = F'<iframe src="data:application/pdf;base64,{base64_pdf}" width="100%" height="940" type="application/pdf"></iframe>'
+    #pdf_display = F'<iframe src="https://thomasmorestudies.org/wp-content/uploads/2020/09/Richard.pdf" width="100%" height="940" type="application/pdf"></iframe>'
     # Displaying File
     st.markdown(pdf_display, unsafe_allow_html=True)
 
