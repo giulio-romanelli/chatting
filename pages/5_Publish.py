@@ -65,6 +65,8 @@ def Publish() -> None:
     # pdfPath = Path("./myStories.pdf")
     # if pdfPath.is_file(): 
     #displayPDF("myStories.pdf")
+    #pdf_display = F'<a href="./stories/myStories.pdf"> Download </a>'
+    #st.markdown(pdf_display, unsafe_allow_html=True)
 
     return
    
