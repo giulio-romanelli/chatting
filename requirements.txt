@@ -8,3 +8,4 @@ gTTS
 matplotlib
 streamlit-mic-recorder
 python-docx
+pdfme
