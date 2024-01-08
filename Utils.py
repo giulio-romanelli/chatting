@@ -477,6 +477,7 @@ def createStoriesPdf():
 ## displayPDF
 ##-------------------------------------------------------------------------------------##
 def displayPDF(filename):
+    
     # Opening file from file path
     with open(filename, "rb") as f:
         base64_pdf = base64.b64encode(f.read()).decode('utf-8')
