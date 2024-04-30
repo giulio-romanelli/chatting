@@ -12,5 +12,5 @@ myStories.pdf
 myStories.mp3
 stories.zip
 images.zip
-./stories/*
-./images/*
+stories/*
+images/*
