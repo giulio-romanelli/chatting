@@ -11,14 +11,16 @@ def Write() -> None:
     characters = st.text_input("Who are the main characters of this story?")
     setting = st.text_input("Where and when is this story set? ")
     topic = st.text_input("What is the topic of this story?")
-    language = st.selectbox("Which language do you want to crate this story in?", ('English', 'Italian')) 
+    #language = st.selectbox("Which language do you want to crate this story in?", ('English', 'Italian')) 
+    language = st.text_input("Which language do you want to crate this story in?", "English"); language = language.title() 
     length = st.slider("How many words is this story long?", 0, 1000, 500, 50)
     st.write("\n")
     click = st.button("Create a new story...", use_container_width=True)
     lines = length/10.0
     pages = length/500.0
     timeToRead = 60.0*length/120.0
-
+    LanguageCodes = [ [ 'Afrikaans', 'Arabic', 'Bulgarian', 'Bengali', 'Bosnian', 'Catalan', 'Czech', 'Welsh', 'Danish', 'German', 'Greek', 'English', 'Esperanto', 'Spanish', 'Estonian', 'Finnish', 'French', 'Gujarati', 'Hindi', 'Croatian', 'Hungarian', 'Armenian', 'Indonesian', 'Icelandic', 'Italian', 'Hebrew', 'Japanese', 'Javanese', 'Khmer', 'Kannada', 'Korean', 'Latin', 'Latvian', 'Macedonian', 'Malay', 'Malayalam', 'Marathi', 'Myanmar', 'Nepali', 'Dutch', 'Norwegian', 'Polish', 'Portuguese', 'Romanian', 'Russian', 'Sinhala', 'Slovak', 'Albanian', 'Serbian', 'Sundanese', 'Swedish', 'Swahili', 'Tamil', 'Telugu', 'Thai', 'Filipino', 'Turkish', 'Ukrainian', 'Urdu', 'Vietnamese', 'Chinese' ], [ 'af', 'ar', 'bg', 'bn', 'bs', 'ca', 'cs', 'cy', 'da', 'de', 'el', 'en', 'eo', 'es', 'et', 'fi', 'fr', 'gu', 'hi', 'hr', 'hu', 'hy', 'id', 'is', 'it', 'iw', 'ja', 'jw', 'km', 'kn', 'ko', 'la', 'lv', 'mk', 'ms', 'ml', 'mr', 'my', 'ne', 'nl', 'no', 'pl', 'pt', 'ro', 'ru', 'si', 'sk', 'sq', 'sr', 'su', 'sv', 'sw', 'ta', 'te', 'th', 'tl', 'tr', 'uk', 'ur', 'vi', 'zh' ] ]
+   
     output = ""
     if click:
         input = "Write a children story. The characters are " + characters + ". The story is set in " + setting + ". The topic is " + topic

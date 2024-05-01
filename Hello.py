@@ -18,8 +18,8 @@ def run():
     st.write("\n")
     
     # Populate database
-    os.system("mkdir stories")
-    os.system("mkdir images")
+    os.system("mkdir stories") # If it exists error message gets ignored
+    os.system("mkdir images") # If it exists error message gets ignored
     stories = os.listdir("./stories")
     N = len(stories)
     Ddates = [ " " ]*N
@@ -110,38 +110,35 @@ def run():
             cumulatedSstories[j][Npast-1-i-1] = cumulatedSstories[j][Npast-1-i] + pastSstories[j][Npast-1-i-1]
 
     # Metrics 
-    col1, col2 = st.columns(2)
+    col1, col2, col3 = st.columns(3)
     with col1: 
         st.metric(label="Total stories", value=cumulatedSstories[0][0], delta=pastSstories[0][0])
     with col2: 
         st.metric(label="Total words", value=cumulatedWwords[0][0], delta=pastWwords[0][0])
-    # with col3: 
-    #     st.metric(label="Languages", value=Nlanguages)
+    with col3: 
+        st.metric(label="Languages", value=Nlanguages)
     st.divider()
 
    # Data frame
-    dfpast = pd.DataFrame(
-    {
-        "Date": pastDdates,        
-        "Total words": cumulatedWwords[0],
-        "Short": cumulatedWwords[1],
-        "Medium": cumulatedWwords[2],
-        "Long": cumulatedWwords[3],
-        "Total stories": cumulatedSstories[0],
-        "English": cumulatedSstories[4],
-        "Italian": cumulatedSstories[5],
-    }    
-    )
-    dfpast['Date'] = pd.to_datetime(dfpast['Date'])
-    dfpast['Date'] = dfpast['Date'].dt.strftime('%b %d')
-    dfpast = dfpast.sort_values(by='Date')
-
-    with col1:
-        st.write("**Total stories by language**")
-        st.line_chart(dfpast, x="Date", y=["Total stories", "English", "Italian"], width=10)
-    with col2:
-        st.write("**Total words by story type**")
-        st.line_chart(dfpast, x="Date", y=["Total words", "Short", "Medium", "Long"], width=10)
+    # dfpast = pd.DataFrame(
+    # {
+    #     "Date": pastDdates,        
+    #     "Total words": cumulatedWwords[0],
+    #     "Short": cumulatedWwords[1],
+    #     "Medium": cumulatedWwords[2],
+    #     "Long": cumulatedWwords[3],
+    #     "Total stories": cumulatedSstories[0],
+    # }    
+    # )
+    # dfpast['Date'] = pd.to_datetime(dfpast['Date'])
+    # dfpast['Date'] = dfpast['Date'].dt.strftime('%b %d')
+    # dfpast = dfpast.sort_values(by='Date')
+    # with col1:
+    #     st.write("**Total stories**")
+    #     st.line_chart(dfpast, x="Date", y=["Total stories"], width=10)
+    # with col2:
+    #     st.write("**Total words by story type**")
+    #     st.line_chart(dfpast, x="Date", y=["Total words", "Short", "Medium", "Long"], width=10)
 
     # Data frame
     df = pd.DataFrame(
