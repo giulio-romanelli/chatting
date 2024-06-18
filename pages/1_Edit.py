@@ -28,7 +28,7 @@ def Edit() -> None:
             clickDelete = st.button("Delete", use_container_width=True)
 
         # Text
-        st.divider()
+        #st.divider()
         output_words = len(body.split())
         output = st.text_area( "Edit your story here...", body, height = int(output_words/10.0*30) )
         output_words = len(output.split())

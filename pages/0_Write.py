@@ -35,7 +35,7 @@ def Write() -> None:
         output = completion.choices[0].message.content
         st.balloons()
 
-    st.divider()
+    #st.divider()
     output.encode("latin-1")
     output_words = len(output.split())
     txt = st.text_area( "Here it is your story...", output, height = int(output_words/10.0*30) )

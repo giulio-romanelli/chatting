@@ -117,7 +117,7 @@ def run():
         st.metric(label="Total words", value=cumulatedWwords[0][0], delta=pastWwords[0][0])
     with col3: 
         st.metric(label="Languages", value=Nlanguages)
-    st.divider()
+    #st.divider()
 
    # Data frame
     # dfpast = pd.DataFrame(

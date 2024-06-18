@@ -19,7 +19,7 @@ def Draw() -> None:
         body = tmp[3]
         st.write("\n")
         click = st.button("Create a new drawing...", use_container_width=True)
-        st.divider()
+        #st.divider()
 
         if click:
 

@@ -38,7 +38,7 @@ def Read() -> None:
             st.balloons()
             playAudioEmbedded(outputFile)
 
-        st.divider()
+        #st.divider()
         output_words = len(body.split())
         txt = st.text_area( "Read your story here...", body, height = int(output_words/10.0*30) )
 
