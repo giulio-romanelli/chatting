@@ -151,8 +151,8 @@ def run():
     )
     
     st.write("**List of your bedtime stories**")
-    result = st.data_editor(df, hide_index=True, use_container_width=True, disabled=True)
-    #st.table(df, hide_index=True)
+    #result = st.data_editor(df, hide_index=True, use_container_width=True, disabled=True)
+    st.table(df, hide_index=True)
 
 if __name__ == "__main__":
     run()
