@@ -38,7 +38,7 @@ def Write() -> None:
     #st.divider()
     #output.encode("latin-1")
     output_words = len(output.split())
-    txt = st.text_area( "Here it is your story...", output )
+    txt = st.text_area( "Here it is your story...", output, 100 )
 
     title = output.partition('\n')[0]
     title.replace('"','')
