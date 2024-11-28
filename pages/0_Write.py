@@ -36,7 +36,7 @@ def Write() -> None:
         st.balloons()
 
     #st.divider()
-    output.encode("latin-1")
+    #output.encode("latin-1")
     output_words = len(output.split())
     txt = st.text_area( "Here it is your story...", output )
 
